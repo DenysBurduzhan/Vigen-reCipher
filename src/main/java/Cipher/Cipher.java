@@ -4,7 +4,6 @@ package Cipher;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static Cipher.Constants.eng;
 
 public class Cipher {
     public static void main(String[] args) {
@@ -32,15 +31,15 @@ public class Cipher {
         StringBuilder builder = new StringBuilder();
         int indexSum = 0;
         for (int i = 0; i < word.length(); i++) {
-            int index1 = findIndex(eng, str[i]);
-            int index2 = findIndex(eng, word.charAt(i));
+            int index1 = findIndex(Constants.getEng(), str[i]);
+            int index2 = findIndex(Constants.getEng(), word.charAt(i));
             indexSum += index1 + index2;
             if(indexSum > 25) {
                 indexSum = indexSum % 25 - 1;
-                builder.append(eng.get(indexSum));
+                builder.append(Constants.getEng().get(indexSum));
                 indexSum = 0;
             }else{
-                builder.append(eng.get(indexSum));
+                builder.append(Constants.getEng().get(indexSum));
                 indexSum = 0;
             }
         }
