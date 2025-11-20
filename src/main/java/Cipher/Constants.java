@@ -9,6 +9,8 @@ public class Constants {
     private static ArrayList<Character> ukr = new ArrayList<>(Arrays.asList(
             'а', 'б', 'в', 'г', 'ґ', 'д', 'е', 'є', 'ж', 'з', 'и', 'і', 'ї', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь', 'ю', 'я'));
 
+    private static ArrayList<String> dictionary = new ArrayList<>(Arrays.asList("take", "or", "for", "of", "as", "his", "that", "he", "was", "for", "on", "are", "with", "they", "be", "at", "by", "word", "have", "play", "my", "world", "there", "those", "victory", "is", "not", "to", "in", "the"));
+
     public static ArrayList<Character> getUkr() {
         return ukr;
     }
@@ -23,5 +25,13 @@ public class Constants {
 
     public static void setEng(ArrayList<Character> eng) {
         Constants.eng = eng;
+    }
+
+    public static ArrayList<String> getDictionary() {
+        return dictionary;
+    }
+
+    public static void setDictionary(ArrayList<String> dictionary) {
+        Constants.dictionary = dictionary;
     }
 }
