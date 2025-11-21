@@ -17,7 +17,7 @@ public class Cipher {
         System.out.println(encrypt(key, word));
         String encryptedWord = encrypt(key, word);
         System.out.println(decrypt(key, encryptedWord));
-        System.out.println(bruteforce(encryptedWord));
+        System.out.println(bruteforce(encryptedWord, Constants.getDictionary()));
     }
 
     public static char[] keyToWordLength(String key, String word) {
@@ -79,19 +79,34 @@ public class Cipher {
         }
         return -1;
     }
-    public static String bruteforce(String encryptedWord){
-        String key ;
+
+    public static String bruteforce(String encryptedWord, String[] dictionary){
         String decryptedWord = "";
-        for(int i = 0; i < Constants.getDictionary().size(); i++){
-            key = (Constants.getDictionary().get(i));
-            char[] newKey = Cipher.keyToWordLength(String.valueOf(key), encryptedWord);
-            decryptedWord = decrypt(String.valueOf(newKey), encryptedWord);
-            System.out.println(decryptedWord);
-
-
+        int matchesMax = 0;
+        StringBuilder builder;
+        for(String decrypted : dictionary){
+            builder = new StringBuilder(decrypt(decrypted,encryptedWord));
+            int matches = counter(String.valueOf(builder), dictionary);
+            if(matches > matchesMax){
+                matchesMax = matches;
+                decryptedWord = String.valueOf(builder);
+            }
         }
 
+
         return decryptedWord;
+    }
+
+    public static int counter(String text, String[] dictionary){
+         int count = 0;
+         for(String word : dictionary){
+             if(text.contains(word)){
+                 count++;
+
+             }
+         }
+
+        return count;
     }
 }
 
