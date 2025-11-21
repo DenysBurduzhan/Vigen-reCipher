@@ -21,18 +21,32 @@ public class Cipher {
     }
 
     public static char[] keyToWordLength(String key, String word) {
-            char[] str = new char[word.length()];
-            for (int i = 0; i < word.length(); i++) {
-                str[i] = key.charAt(i % key.length());
+        char[] str = new char[word.length()];
+        int keyIndex = 0;
+        for (int i = 0; i < word.length(); i++) {
+            char currentChar = word.charAt(i);
+            if (currentChar == ' ') {
+                str[i] = ' ';
+                continue;
             }
-            return str;
+            str[i] = key.charAt(keyIndex % key.length());
+            keyIndex++;
         }
+
+        return str;
+
+    }
 
     public static String decrypt(String key, String encryptedWord) {
         char[] newKey = keyToWordLength(key, encryptedWord);
         StringBuilder builder = new StringBuilder();
         int indexSet = 0;
         for (int i = 0; i < encryptedWord.length(); i++) {
+            char current = encryptedWord.charAt(i);
+            if(Character.isWhitespace(current)){
+                builder.append(current);
+                continue;
+            }
             int index1 = findIndex(Constants.getEng(), newKey[i]);
             int index2 = findIndex(Constants.getEng(), encryptedWord.charAt(i));
             indexSet += index2 - index1;
@@ -50,11 +64,20 @@ public class Cipher {
     }
 
     public static String encrypt(String key, String word) {
-        // lemon helloworld
+        // lemon //were in fact two important
+        String regex = "^[A-Za-zА-Яа-яЁё\\s]+$";
         char[] newKey = keyToWordLength(key, word);
         StringBuilder builder = new StringBuilder();
         int indexSum = 0;
         for (int i = 0; i < word.length(); i++) {
+            if(!word.matches(regex)){
+                throw new RuntimeException("Included symbols can't be applied");
+            }
+            char current = word.charAt(i);
+            if(Character.isWhitespace(current)){
+                builder.append(current);
+                continue;
+            }
             int index1 = findIndex(Constants.getEng(), newKey[i]);
             int index2 = findIndex(Constants.getEng(), word.charAt(i));
             indexSum += index1 + index2;
@@ -65,6 +88,7 @@ public class Cipher {
             } else {
                 builder.append(Constants.getEng().get(indexSum));
                 indexSum = 0;
+
             }
         }
 
