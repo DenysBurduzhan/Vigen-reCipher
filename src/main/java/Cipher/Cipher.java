@@ -1,8 +1,10 @@
 package Cipher;
 
 
+import Constants.Constants;
+import Dictionary.Dictionary;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -17,7 +19,7 @@ public class Cipher {
         System.out.println(encrypt(key, word));
         String encryptedWord = encrypt(key, word);
         System.out.println(decrypt(key, encryptedWord));
-        System.out.println(bruteforce(encryptedWord, Constants.getDictionary()));
+        System.out.println(bruteforce(encryptedWord, Dictionary.getDictionary()));
     }
 
     public static char[] keyToWordLength(String key, String word) {
