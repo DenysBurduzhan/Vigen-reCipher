@@ -9,17 +9,21 @@ import java.util.Scanner;
 
 
 public class Cipher {
-    static Scanner scan = new Scanner(System.in);
-    static String key = scan.nextLine();
-    static String word = scan.nextLine();
+   // static Scanner scan = new Scanner(System.in);
+   // static String key = scan.nextLine();
+    //static String word = scan.nextLine();
 
      static void main(String[] args) {
+         String key = args[1];
+         String word = args[2];
 
-
-        System.out.println(encrypt(key, word));
-        String encryptedWord = encrypt(key, word);
-        System.out.println(decrypt(key, encryptedWord));
-        System.out.println(bruteforce(encryptedWord, Dictionary.getDictionary()));
+         if("-e".equals(args[0])){
+             System.out.println(encrypt(key,word));
+         }else if("-d".equals(args[0])){
+             System.out.println(decrypt(key, word));
+         }else if ("-b".equals(args[0])){
+             System.out.println(bruteforce(word, Dictionary.getDictionary()));
+         }
     }
 
     public static char[] keyToWordLength(String key, String word) {
