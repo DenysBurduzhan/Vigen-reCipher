@@ -14,17 +14,19 @@ public class BruteForce {
         String decryptedWord = "";
         int matchesMax = 0;
         StringBuilder builder;
+        String key = null;
         for(String decrypted : dictionary){
             builder = new StringBuilder(decrypt(decrypted,encryptedWord));
             int matches = counter(String.valueOf(builder), dictionary);
             if(matches > matchesMax){
                 matchesMax = matches;
                 decryptedWord = String.valueOf(builder);
+                key = decrypted;
             }
         }
 
 
-        return decryptedWord;
+        return STR."key: \{key} Decrypted text: \{decryptedWord}";
     }
 
     public static int counter(String text, String[] dictionary){
