@@ -2,14 +2,16 @@ package CyphersOptions;
 
 import Constants.Constants;
 import Interfaces.Key;
+import Interfaces.LangSwitcher;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @Getter
 @Setter
-public class Decryptor implements Key {
+public class Decryptor implements Key, LangSwitcher {
     public String key;
     public String encryptedWord;
 
@@ -19,30 +21,32 @@ public class Decryptor implements Key {
     }
 
     public static String decrypt(String key, String encryptedWord) {
-        char[] newKey = new Decryptor(key, encryptedWord).keyToWordLength(key, encryptedWord);
+        Decryptor decryptor = new Decryptor(key, encryptedWord);
+        char[] newKey = decryptor.keyToWordLength(key, encryptedWord);
         StringBuilder builder = new StringBuilder();
-        int indexSet = 0;
+
+        ArrayList<Character> language = decryptor.getLanguage(encryptedWord);
+        int lengthOfLang = language.size();
+
         for (int i = 0; i < encryptedWord.length(); i++) {
             char current = encryptedWord.charAt(i);
-            if(Character.isWhitespace(current)){
+            if (Character.isWhitespace(current)) {
                 builder.append(current);
                 continue;
             }
-            int index1 = findIndex(Constants.getEng(), newKey[i]);
-            int index2 = findIndex(Constants.getEng(), encryptedWord.charAt(i));
-            indexSet += index2 - index1;
-            if (indexSet < 0) {
-                indexSet = indexSet + 26;
-                builder.append(Constants.getEng().get(indexSet));
-                indexSet = 0;
-            } else {
-                builder.append(Constants.getEng().get(indexSet));
-                indexSet = 0;
+            int keyIndex = findIndex(language, newKey[i]);
+            int cipherIndex = findIndex(language, current);
+            if (keyIndex < 0 || cipherIndex < 0) {
+                builder.append(current);
+                continue;
             }
+            int plainIndex = (cipherIndex - keyIndex + lengthOfLang) % lengthOfLang;
+            builder.append(language.get(plainIndex));
         }
 
         return builder.toString();
     }
+
     public static int findIndex(ArrayList<Character> array, char symbol) {
         for (int i = 0; i < array.size(); i++) {
             if (array.get(i) == symbol) {
@@ -59,7 +63,7 @@ public class Decryptor implements Key {
         for (int i = 0; i < word.length(); i++) {
             char currentChar = word.charAt(i);
             if (currentChar == ' ') {
-                str[i] = ' ';
+                str[i] = currentChar;
                 continue;
             }
             str[i] = key.charAt(keyIndex % key.length());
@@ -67,5 +71,19 @@ public class Decryptor implements Key {
         }
 
         return str;
+    }
+    @Override
+    public ArrayList<Character> getLanguage(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            char symbol = text.charAt(i);
+            if (Constants.getEng().contains(symbol)) {
+                return Constants.getEng();
+            } else if (Constants.getUkr().contains(symbol)) {
+                return Constants.getUkr();
+            } else {
+                System.out.println("undefined language");
+            }
+        }
+        return null;
     }
 }

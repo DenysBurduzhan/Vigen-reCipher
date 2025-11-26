@@ -2,6 +2,7 @@ package CyphersOptions;
 
 import Constants.Constants;
 import Interfaces.Key;
+import Interfaces.LangSwitcher;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 
 @Setter
 @Getter
-public class Encryptor implements Key {
+public class Encryptor implements Key, LangSwitcher {
     public String key;
     public String word;
 
@@ -17,12 +18,15 @@ public class Encryptor implements Key {
         this.key = key;
         this.word = word;
     }
+
     public static String encrypt(String key, String word) {
         // lemon //were in fact two important
-        String regex = "^[A-Za-zА-Яа-яЁё\\s]+$";
-        char[] newKey = new Encryptor(key, word).keyToWordLength(key, word);
+        Encryptor encryptor = new Encryptor(key, word);
+        String regex = "^[A-Za-zА-Яа-яЁёҐґЄєІіЇї\\s]+$";
+        char[] newKey = encryptor.keyToWordLength(key, word);
         StringBuilder builder = new StringBuilder();
-        int indexSum = 0;
+        ArrayList<Character> language = encryptor.getLanguage(word);
+        int lengthOfLang = language.size();
         for (int i = 0; i < word.length(); i++) {
             if(!word.matches(regex)){
                 throw new RuntimeException("Included symbols can't be applied");
@@ -32,18 +36,11 @@ public class Encryptor implements Key {
                 builder.append(current);
                 continue;
             }
-            int index1 = findIndex(Constants.getEng(), newKey[i]);
-            int index2 = findIndex(Constants.getEng(), word.charAt(i));
-            indexSum += index1 + index2;
-            if (indexSum > 25) {
-                indexSum = indexSum % 25 - 1;
-                builder.append(Constants.getEng().get(indexSum));
-                indexSum = 0;
-            } else {
-                builder.append(Constants.getEng().get(indexSum));
-                indexSum = 0;
+            int index1 = findIndex(language, newKey[i]);
+            int index2 = findIndex(language, word.charAt(i));
+            int indexSum = (index1 + index2) % lengthOfLang;
+            builder.append(encryptor.getLanguage(word).get(indexSum));
 
-            }
         }
 
         return builder.toString();
@@ -66,7 +63,7 @@ public class Encryptor implements Key {
         for (int i = 0; i < word.length(); i++) {
             char currentChar = word.charAt(i);
             if (currentChar == ' ') {
-                str[i] = ' ';
+                str[i] = currentChar;
                 continue;
             }
             str[i] = key.charAt(keyIndex % key.length());
@@ -74,5 +71,20 @@ public class Encryptor implements Key {
         }
 
         return str;
+    }
+
+    @Override
+    public ArrayList<Character> getLanguage(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            char symbol = text.charAt(i);
+            if (Constants.getEng().contains(symbol)) {
+                return Constants.getEng();
+            } else if (Constants.getUkr().contains(symbol)) {
+                return Constants.getUkr();
+            } else {
+                System.out.println("undefined language");
+            }
+        }
+        return null;
     }
 }

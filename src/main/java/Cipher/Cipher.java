@@ -20,7 +20,7 @@ public class Cipher {
          }else if("-d".equals(args[0])){
              System.out.println(decrypt(key, word));
          }else if ("-b".equals(args[0])){
-             System.out.println(bruteforce(word, Dictionary.getDictionary()));
+             System.out.println(bruteforce(word));
          }
     }
 }
