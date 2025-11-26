@@ -2,10 +2,7 @@ package CyphersOptions;
 
 import Constants.Constants;
 import Dictionary.Dictionary;
-import Interfaces.LangSwitcher;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static CyphersOptions.Decryptor.decrypt;
 
