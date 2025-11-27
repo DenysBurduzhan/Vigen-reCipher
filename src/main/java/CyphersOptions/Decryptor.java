@@ -1,6 +1,7 @@
 package CyphersOptions;
 
 import Constants.Constants;
+import Dictionary.Dictionary;
 import Interfaces.Key;
 import Interfaces.LangSwitcher;
 import lombok.Getter;
@@ -80,10 +81,9 @@ public class Decryptor implements Key, LangSwitcher {
                 return Constants.getEng();
             } else if (Constants.getUkr().contains(symbol)) {
                 return Constants.getUkr();
-            } else {
-                System.out.println("undefined language");
             }
         }
-        return null;
+        System.out.println("undefined language");
+        return Constants.getEng();
     }
 }
