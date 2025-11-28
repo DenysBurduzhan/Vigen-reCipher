@@ -14,7 +14,7 @@ public class Encryptor implements Key, LangSwitcher {
     public String key;
     public String word;
 
-     Encryptor(String key, String word){
+    Encryptor(String key, String word) {
         this.key = key;
         this.word = word;
     }
@@ -26,22 +26,45 @@ public class Encryptor implements Key, LangSwitcher {
 
         StringBuilder builder = new StringBuilder();
         ArrayList<Character> language = encryptor.getLanguage(word);
-        int lengthOfLang = language.size();
+        int lengthOfLang = language.size() / 2;
 
         for (int i = 0; i < word.length(); i++) {
             char current = word.charAt(i);
-            int keyIndex = findIndex(language, newKey[i]);
-            int cipherIndex = findIndex(language, word.charAt(i));
+            ArrayList<Character> upperOrLower = registerCheck(language,current);
+            char keyChar = newKey[i];
+            if (Character.isUpperCase(current)) {
+                keyChar = Character.toUpperCase(keyChar);
+            } else {
+                keyChar = Character.toLowerCase(keyChar);
+            }
+            int keyIndex = findIndex(upperOrLower, keyChar);
+            int cipherIndex = findIndex(upperOrLower, word.charAt(i));
             if (keyIndex < 0 || cipherIndex < 0) {
                 builder.append(current);
                 continue;
             }
             int indexSum = (keyIndex + cipherIndex) % lengthOfLang;
-            builder.append(encryptor.getLanguage(word).get(indexSum));
+            builder.append(upperOrLower.get(indexSum));
 
         }
 
         return builder.toString();
+    }
+
+    public static ArrayList<Character> registerCheck(ArrayList<Character> lang, char current) {
+        ArrayList<Character> upper = new ArrayList<>(lang.size() / 2);
+        ArrayList<Character> lower = new ArrayList<>(lang.size() / 2);
+        for (int i = 0; i < lang.size() / 2; i++) {
+            upper.add(lang.get(i));
+            lower.add(lang.get(i + lang.size() / 2));
+        }
+        if(upper.contains(current)){
+            return upper;
+        }
+        if(lower.contains(current)){
+            return  lower;
+        }
+        return upper;
     }
 
 
