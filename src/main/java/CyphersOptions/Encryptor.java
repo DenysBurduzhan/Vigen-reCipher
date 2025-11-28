@@ -1,6 +1,7 @@
 package CyphersOptions;
 
 import Constants.Constants;
+import Interfaces.FindIndex;
 import Interfaces.Key;
 import Interfaces.LangSwitcher;
 import Interfaces.registerSwitcher;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 
 @Setter
 @Getter
-public class Encryptor implements Key, LangSwitcher, registerSwitcher {
+public class Encryptor implements Key, LangSwitcher, registerSwitcher, FindIndex {
     public String key;
     public String word;
 
@@ -37,8 +38,8 @@ public class Encryptor implements Key, LangSwitcher, registerSwitcher {
             } else {
                 keyChar = Character.toLowerCase(keyChar);
             }
-            int keyIndex = findIndex(upperOrLower, keyChar);
-            int cipherIndex = findIndex(upperOrLower, word.charAt(i));
+            int keyIndex = encryptor.findIndex(upperOrLower, keyChar);
+            int cipherIndex = encryptor.findIndex(upperOrLower, word.charAt(i));
             if (keyIndex < 0 || cipherIndex < 0) {
                 builder.append(current);
                 continue;
@@ -51,6 +52,7 @@ public class Encryptor implements Key, LangSwitcher, registerSwitcher {
         return builder.toString();
     }
 
+    @Override
     public ArrayList<Character> registerCheck(ArrayList<Character> lang, char current) {
         ArrayList<Character> upper = new ArrayList<>(lang.size() / 2);
         ArrayList<Character> lower = new ArrayList<>(lang.size() / 2);
@@ -68,7 +70,8 @@ public class Encryptor implements Key, LangSwitcher, registerSwitcher {
     }
 
 
-    public static int findIndex(ArrayList<Character> array, char symbol) {
+    @Override
+    public int findIndex(ArrayList<Character> array, char symbol) {
         for (int i = 0; i < array.size(); i++) {
             if (array.get(i) == symbol) {
                 return i;

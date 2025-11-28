@@ -1,6 +1,7 @@
 package CyphersOptions;
 
 import Constants.Constants;
+import Interfaces.FindIndex;
 import Interfaces.Key;
 import Interfaces.LangSwitcher;
 import Interfaces.registerSwitcher;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 
 @Getter
 @Setter
-public class Decryptor implements Key, LangSwitcher, registerSwitcher {
+public class Decryptor implements Key, LangSwitcher, registerSwitcher, FindIndex {
     public String key;
     public String encryptedWord;
 
@@ -37,8 +38,8 @@ public class Decryptor implements Key, LangSwitcher, registerSwitcher {
             } else {
                 keyChar = Character.toLowerCase(keyChar);
             }
-            int keyIndex = findIndex(upperOrLower, keyChar);
-            int cipherIndex = findIndex(upperOrLower, current);
+            int keyIndex = decryptor.findIndex(upperOrLower, keyChar);
+            int cipherIndex = decryptor.findIndex(upperOrLower, current);
             if (keyIndex < 0 || cipherIndex < 0) {
                 builder.append(current);
                 continue;
@@ -49,6 +50,7 @@ public class Decryptor implements Key, LangSwitcher, registerSwitcher {
 
         return builder.toString();
     }
+    @Override
     public ArrayList<Character> registerCheck(ArrayList<Character> lang, char current) {
         ArrayList<Character> upper = new ArrayList<>(lang.size() / 2);
         ArrayList<Character> lower = new ArrayList<>(lang.size() / 2);
@@ -63,15 +65,6 @@ public class Decryptor implements Key, LangSwitcher, registerSwitcher {
             return  lower;
         }
         return upper;
-    }
-
-    public static int findIndex(ArrayList<Character> array, char symbol) {
-        for (int i = 0; i < array.size(); i++) {
-            if (array.get(i) == symbol) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     @Override
@@ -102,5 +95,15 @@ public class Decryptor implements Key, LangSwitcher, registerSwitcher {
         }
         System.out.println("undefined language");
         return Constants.getEng();
+    }
+
+    @Override
+    public int findIndex(ArrayList<Character> array, char symbol) {
+        for (int i = 0; i < array.size(); i++) {
+            if (array.get(i) == symbol) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
