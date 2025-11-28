@@ -1,7 +1,6 @@
 package CyphersOptions;
 
 import Constants.Constants;
-import Dictionary.Dictionary;
 import Interfaces.Key;
 import Interfaces.LangSwitcher;
 import lombok.Getter;
@@ -23,23 +22,21 @@ public class Encryptor implements Key, LangSwitcher {
     public static String encrypt(String key, String word) {
         // lemon //were in fact two important
         Encryptor encryptor = new Encryptor(key, word);
-        String regex = "^[A-Za-zА-Яа-яЁёҐґЄєІіЇї\\s]+$";
         char[] newKey = encryptor.keyToWordLength(key, word);
+
         StringBuilder builder = new StringBuilder();
         ArrayList<Character> language = encryptor.getLanguage(word);
         int lengthOfLang = language.size();
+
         for (int i = 0; i < word.length(); i++) {
-            if(!word.matches(regex)){
-                throw new RuntimeException("Included symbols can't be applied");
-            }
             char current = word.charAt(i);
-            if(Character.isWhitespace(current)){
+            int keyIndex = findIndex(language, newKey[i]);
+            int cipherIndex = findIndex(language, word.charAt(i));
+            if (keyIndex < 0 || cipherIndex < 0) {
                 builder.append(current);
                 continue;
             }
-            int index1 = findIndex(language, newKey[i]);
-            int index2 = findIndex(language, word.charAt(i));
-            int indexSum = (index1 + index2) % lengthOfLang;
+            int indexSum = (keyIndex + cipherIndex) % lengthOfLang;
             builder.append(encryptor.getLanguage(word).get(indexSum));
 
         }

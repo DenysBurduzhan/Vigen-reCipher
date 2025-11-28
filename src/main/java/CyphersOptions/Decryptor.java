@@ -31,10 +31,6 @@ public class Decryptor implements Key, LangSwitcher {
 
         for (int i = 0; i < encryptedWord.length(); i++) {
             char current = encryptedWord.charAt(i);
-            if (Character.isWhitespace(current)) {
-                builder.append(current);
-                continue;
-            }
             int keyIndex = findIndex(language, newKey[i]);
             int cipherIndex = findIndex(language, current);
             if (keyIndex < 0 || cipherIndex < 0) {
