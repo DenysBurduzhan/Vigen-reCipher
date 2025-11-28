@@ -1,9 +1,9 @@
 package CyphersOptions;
 
 import Constants.Constants;
-import Dictionary.Dictionary;
 import Interfaces.Key;
 import Interfaces.LangSwitcher;
+import Interfaces.registerSwitcher;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 @Getter
 @Setter
-public class Decryptor implements Key, LangSwitcher {
+public class Decryptor implements Key, LangSwitcher, registerSwitcher {
     public String key;
     public String encryptedWord;
 
@@ -27,21 +27,42 @@ public class Decryptor implements Key, LangSwitcher {
         StringBuilder builder = new StringBuilder();
 
         ArrayList<Character> language = decryptor.getLanguage(encryptedWord);
-        int lengthOfLang = language.size();
 
         for (int i = 0; i < encryptedWord.length(); i++) {
             char current = encryptedWord.charAt(i);
-            int keyIndex = findIndex(language, newKey[i]);
-            int cipherIndex = findIndex(language, current);
+            ArrayList<Character> upperOrLower = decryptor.registerCheck(language,current);
+            char keyChar = newKey[i];
+            if (Character.isUpperCase(current)) {
+                keyChar = Character.toUpperCase(keyChar);
+            } else {
+                keyChar = Character.toLowerCase(keyChar);
+            }
+            int keyIndex = findIndex(upperOrLower, keyChar);
+            int cipherIndex = findIndex(upperOrLower, current);
             if (keyIndex < 0 || cipherIndex < 0) {
                 builder.append(current);
                 continue;
             }
-            int plainIndex = (cipherIndex - keyIndex + lengthOfLang) % lengthOfLang;
-            builder.append(language.get(plainIndex));
+            int plainIndex = (cipherIndex - keyIndex + upperOrLower.size()) % upperOrLower.size();
+            builder.append(upperOrLower.get(plainIndex));
         }
 
         return builder.toString();
+    }
+    public ArrayList<Character> registerCheck(ArrayList<Character> lang, char current) {
+        ArrayList<Character> upper = new ArrayList<>(lang.size() / 2);
+        ArrayList<Character> lower = new ArrayList<>(lang.size() / 2);
+        for (int i = 0; i < lang.size() / 2; i++) {
+            upper.add(lang.get(i));
+            lower.add(lang.get(i + lang.size() / 2));
+        }
+        if(upper.contains(current)){
+            return upper;
+        }
+        if(lower.contains(current)){
+            return  lower;
+        }
+        return upper;
     }
 
     public static int findIndex(ArrayList<Character> array, char symbol) {

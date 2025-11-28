@@ -3,6 +3,7 @@ package CyphersOptions;
 import Constants.Constants;
 import Interfaces.Key;
 import Interfaces.LangSwitcher;
+import Interfaces.registerSwitcher;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 @Setter
 @Getter
-public class Encryptor implements Key, LangSwitcher {
+public class Encryptor implements Key, LangSwitcher, registerSwitcher {
     public String key;
     public String word;
 
@@ -26,11 +27,10 @@ public class Encryptor implements Key, LangSwitcher {
 
         StringBuilder builder = new StringBuilder();
         ArrayList<Character> language = encryptor.getLanguage(word);
-        int lengthOfLang = language.size() / 2;
 
         for (int i = 0; i < word.length(); i++) {
             char current = word.charAt(i);
-            ArrayList<Character> upperOrLower = registerCheck(language,current);
+            ArrayList<Character> upperOrLower = encryptor.registerCheck(language,current);
             char keyChar = newKey[i];
             if (Character.isUpperCase(current)) {
                 keyChar = Character.toUpperCase(keyChar);
@@ -43,7 +43,7 @@ public class Encryptor implements Key, LangSwitcher {
                 builder.append(current);
                 continue;
             }
-            int indexSum = (keyIndex + cipherIndex) % lengthOfLang;
+            int indexSum = (keyIndex + cipherIndex) % upperOrLower.size();
             builder.append(upperOrLower.get(indexSum));
 
         }
@@ -51,7 +51,7 @@ public class Encryptor implements Key, LangSwitcher {
         return builder.toString();
     }
 
-    public static ArrayList<Character> registerCheck(ArrayList<Character> lang, char current) {
+    public ArrayList<Character> registerCheck(ArrayList<Character> lang, char current) {
         ArrayList<Character> upper = new ArrayList<>(lang.size() / 2);
         ArrayList<Character> lower = new ArrayList<>(lang.size() / 2);
         for (int i = 0; i < lang.size() / 2; i++) {
