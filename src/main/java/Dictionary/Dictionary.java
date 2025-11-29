@@ -8,7 +8,7 @@ import lombok.Setter;
 public class Dictionary {
     @Getter
     @Setter
-    private static  String[] dictionary = new String[]{"the","be", "to", "of", "and", "a", "in", "that", "have", "i",
+    private static  String[] dictionary = new String[]{"the","be", "to", "of", "and", "in", "that", "have", "i",
             "it", "for", "not", "on", "with", "he", "as", "you", "do", "at",
             "this", "but", "his", "by", "from", "they", "we", "say", "her", "she",
             "or", "an", "will", "my", "one", "all", "would", "there", "their", "what",

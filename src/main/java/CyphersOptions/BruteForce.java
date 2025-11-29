@@ -15,8 +15,8 @@ public class BruteForce {
     public static String bruteforce(String encryptedWord){
         String decryptedWord = "";
         int matchesMax = 0;
-        StringBuilder builder;
         String key = null;
+        StringBuilder builder;
         BruteForce bruteForce = new BruteForce(encryptedWord);
         String[] dictionary = bruteForce.getLanguage(encryptedWord);
         for(String decrypted : dictionary){
@@ -30,8 +30,11 @@ public class BruteForce {
         }
 
 
-        return STR."key: \{key} Decrypted text: \{decryptedWord}";
+        return "ключ: " + key + " text: " + decryptedWord;
     }
+
+
+
 
     public static int counter(String text, String[] dictionary){
         int count = 0;
