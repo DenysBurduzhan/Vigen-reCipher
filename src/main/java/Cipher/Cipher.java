@@ -2,6 +2,7 @@ package Cipher;
 
 
 
+import CyphersOptions.BruteForce;
 import Dictionary.Dictionary;
 import FileManager.FileOptions;
 
@@ -26,7 +27,7 @@ public class Cipher {
              fileOptions.write(Path.of("output.txt" + "[DECRYPTED]"),decrypt(key, fileOptions.read(Path.of(args[2]))));
          }else if ("-b".equals(args[0])){
              String decryptedWord = bruteforce(fileOptions.read(Path.of(args[2])));
-             fileOptions.write(Path.of("output.txt" +  "[DECRYPTED]"),decryptedWord);
+             fileOptions.write(Path.of("output.txt" +  "[DECRYPTED]" + BruteForce.findKey(decryptedWord)),decryptedWord);
          }
     }
 }

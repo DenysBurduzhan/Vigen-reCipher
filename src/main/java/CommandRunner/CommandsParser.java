@@ -8,9 +8,6 @@ public class CommandsParser {
         String key = null;
         Path path = null;
 
-
-
-
         return null;
     }
 }

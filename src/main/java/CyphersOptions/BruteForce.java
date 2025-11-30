@@ -33,6 +33,18 @@ public class BruteForce {
         return "ключ: " + key + " text: " + decryptedWord;
     }
 
+    public static String findKey(String encryptedWord){
+        String[] array = encryptedWord.split(" ");
+        String key = null;
+        for (int i = 0; i < encryptedWord.length(); i++){
+            if(i == 1){
+                key = array[i];
+                break;
+            }
+        }
+        return key;
+    }
+
 
 
 
