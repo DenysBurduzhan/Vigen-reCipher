@@ -28,8 +28,8 @@ public class CommandsParser {
                     StringBuilder filePathBuilder = new StringBuilder(args[++i]);
                     while (i + 1 < args.length && !args[i + 1].startsWith("-")){
                         filePathBuilder.append(" ").append(args[++i]);
-                        path = Path.of(filePathBuilder.toString());
                     }
+                    path = Path.of(filePathBuilder.toString());
                 }else{
                     throw new IllegalArgumentException("Missing path");
                 }

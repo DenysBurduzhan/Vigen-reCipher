@@ -2,6 +2,9 @@ package Cipher;
 
 
 
+import CommandRunner.Commands;
+import CommandRunner.CommandsParser;
+import CommandRunner.RunOptions;
 import CyphersOptions.BruteForce;
 import Dictionary.Dictionary;
 import FileManager.FileOptions;
@@ -15,20 +18,22 @@ import static CyphersOptions.Encryptor.encrypt;
 
 
 public class Cipher {
+    public static void main(String[] args) throws IOException {
+        FileOptions fileOptions = new FileOptions();
+        CommandsParser commandsParser = new CommandsParser();
+        RunOptions runOptions = commandsParser.parse(args);
 
-     static void main(String[] args) throws IOException {
-         String key = args[1];
-         String word = args[2];
-         FileOptions fileOptions = new FileOptions();
-
-         if("-e".equals(args[0])){
-             fileOptions.write(Path.of("output.txt" + "[ENCRYPTED]"),encrypt(key, fileOptions.read(Path.of(args[2]))));
-         }else if("-d".equals(args[0])){
-             fileOptions.write(Path.of("output.txt" + "[DECRYPTED]"),decrypt(key, fileOptions.read(Path.of(args[2]))));
-         }else if ("-b".equals(args[0])){
-             String decryptedWord = bruteforce(fileOptions.read(Path.of(args[2])));
-             fileOptions.write(Path.of("output.txt" +  "[DECRYPTED]" + BruteForce.findKey(decryptedWord)),decryptedWord);
-         }
+        if(runOptions.getCommands() == Commands.ENCRYPT){
+            fileOptions.write(Path.of("output[ENCRYPTED].txt"),
+                    encrypt(runOptions.getKey(), fileOptions.read(runOptions.getFilePath())));
+        } else if(runOptions.getCommands() == Commands.DECRYPT){
+            fileOptions.write(Path.of("output[DECRYPTED].txt"),
+                    decrypt(runOptions.getKey(), fileOptions.read(runOptions.getFilePath())));
+        } else if(runOptions.getCommands() == Commands.BRUTEFORCE){
+            String decryptedWord = bruteforce(fileOptions.read(runOptions.getFilePath()));
+            fileOptions.write(Path.of("output[DECRYPTED]" + BruteForce.findKey(decryptedWord) + ".txt"),
+                    decryptedWord);
+        }
     }
 }
 
