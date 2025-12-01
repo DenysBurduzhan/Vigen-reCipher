@@ -29,7 +29,7 @@ public class Cipher {
                         decrypt(runOptions.getKey(), fileOptions.read(runOptions.getFilePath())));
             } else if (runOptions.getCommands() == Commands.BRUTEFORCE) {
                 String decryptedWord = bruteforce(fileOptions.read(runOptions.getFilePath()));
-                fileOptions.write(Path.of("output[DECRYPTED]" + BruteForce.findKey(decryptedWord) + ".txt"),
+                fileOptions.write(Path.of("output[DECRYPTED Key - " + BruteForce.findKey(decryptedWord) +"].txt"),
                         decryptedWord);
             }
         }catch (RuntimeException e){
