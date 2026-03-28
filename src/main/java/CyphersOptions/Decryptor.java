@@ -33,9 +33,7 @@ public class Decryptor implements Key, LangSwitcher, registerSwitcher, FindIndex
             char current = encryptedWord.charAt(i);
             ArrayList<Character> upperOrLower = decryptor.registerCheck(language,current);
             char keyChar = newKey[i];
-            if (Character.isUpperCase(current)) {
-                keyChar = Character.toUpperCase(keyChar);
-            } else {
+            if (!Character.isUpperCase(current)) {
                 keyChar = Character.toLowerCase(keyChar);
             }
             int keyIndex = decryptor.findIndex(upperOrLower, keyChar);

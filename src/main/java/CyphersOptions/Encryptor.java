@@ -31,9 +31,7 @@ public class Encryptor implements Key, LangSwitcher, registerSwitcher, FindIndex
             char current = word.charAt(i);
             ArrayList<Character> upperOrLower = encryptor.registerCheck(language,current);
             char keyChar = newKey[i];
-            if (Character.isUpperCase(current)) {
-                keyChar = Character.toUpperCase(keyChar);
-            } else {
+            if (!Character.isUpperCase(current)) {
                 keyChar = Character.toLowerCase(keyChar);
             }
             int keyIndex = encryptor.findIndex(upperOrLower, keyChar);
