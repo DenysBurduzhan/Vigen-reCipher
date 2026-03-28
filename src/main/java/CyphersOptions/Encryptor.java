@@ -7,7 +7,6 @@ import Interfaces.LangSwitcher;
 import Interfaces.registerSwitcher;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.ArrayList;
 
 @Setter
@@ -22,7 +21,6 @@ public class Encryptor implements Key, LangSwitcher, registerSwitcher, FindIndex
     }
 
     public static String encrypt(String key, String word) {
-        // lemon //were in fact two important
         Encryptor encryptor = new Encryptor(key, word);
         char[] newKey = encryptor.keyToWordLength(key, word);
 
