@@ -17,7 +17,6 @@ public class Encryptor  {
 
     public static String encrypt(String key, String word) {
         char[] newKey = settingsManager.keyToWordLength(key, word);
-
         StringBuilder builder = new StringBuilder();
         ArrayList<Character> language = settingsManager.getLanguage(word);
 
@@ -25,9 +24,7 @@ public class Encryptor  {
             char current = word.charAt(i);
             ArrayList<Character> upperOrLower = settingsManager.registerCheck(language,current);
             char keyChar = newKey[i];
-            if (!Character.isUpperCase(current)) {
-                keyChar = Character.toLowerCase(keyChar);
-            }
+            keyChar = Character.isUpperCase(current) ? Character.toUpperCase(keyChar) : Character.toLowerCase(keyChar);
             int keyIndex = settingsManager.findIndex(upperOrLower, keyChar);
             int cipherIndex = settingsManager.findIndex(upperOrLower, word.charAt(i));
             if (keyIndex < 0 || cipherIndex < 0) {
