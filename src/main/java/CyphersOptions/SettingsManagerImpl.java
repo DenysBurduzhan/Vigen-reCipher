@@ -1,14 +1,11 @@
 package CyphersOptions;
 
 import Constants.Constants;
-import Interfaces.FindIndex;
-import Interfaces.Key;
-import Interfaces.LangSwitcher;
-import Interfaces.registerSwitcher;
+import Interfaces.*;
 
 import java.util.ArrayList;
 
-public class SettingsManagerImpl implements registerSwitcher, FindIndex, Key, LangSwitcher {
+public class SettingsManagerImpl implements registerSwitcher, FindIndex, Key, LangSwitcher, EncryptOrDecrypt {
     @Override
     public ArrayList<Character> registerCheck(ArrayList<Character> lang, char current) {
         ArrayList<Character> upper = new ArrayList<>(lang.size() / 2);
@@ -65,5 +62,35 @@ public class SettingsManagerImpl implements registerSwitcher, FindIndex, Key, La
         }
         System.out.println("undefined language");
         return Constants.getEng();
+    }
+
+    @Override
+    public String process(String key, String word, boolean encrypt) {
+        SettingsManagerImpl settingsManager = new SettingsManagerImpl();
+        char[] newKey = settingsManager.keyToWordLength(key, word);
+        StringBuilder builder = new StringBuilder();
+        ArrayList<Character> language = settingsManager.getLanguage(word);
+
+        for (int i = 0; i < word.length(); i++) {
+            char current = word.charAt(i);
+            ArrayList<Character> upperOrLower = settingsManager.registerCheck(language,current);
+            char keyChar = newKey[i];
+            keyChar = Character.isUpperCase(current) ? Character.toUpperCase(keyChar) : Character.toLowerCase(keyChar);
+            int keyIndex = settingsManager.findIndex(upperOrLower, keyChar);
+            int cipherIndex = settingsManager.findIndex(upperOrLower, current);
+            if (keyIndex < 0 || cipherIndex < 0) {
+                builder.append(current);
+                continue;
+            }
+            if(encrypt){
+                int indexSum = (keyIndex + cipherIndex) % upperOrLower.size();
+                builder.append(upperOrLower.get(indexSum));
+            }else {
+                int plainIndex = (cipherIndex - keyIndex + upperOrLower.size()) % upperOrLower.size();
+                builder.append(upperOrLower.get(plainIndex));
+            }
+        }
+
+        return builder.toString();
     }
 }

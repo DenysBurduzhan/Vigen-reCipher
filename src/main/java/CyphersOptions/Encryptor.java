@@ -2,8 +2,6 @@ package CyphersOptions;
 
 import lombok.Getter;
 import lombok.Setter;
-import java.util.ArrayList;
-
 @Setter
 @Getter
 public class Encryptor  {
@@ -16,26 +14,6 @@ public class Encryptor  {
     }
 
     public static String encrypt(String key, String word) {
-        char[] newKey = settingsManager.keyToWordLength(key, word);
-        StringBuilder builder = new StringBuilder();
-        ArrayList<Character> language = settingsManager.getLanguage(word);
-
-        for (int i = 0; i < word.length(); i++) {
-            char current = word.charAt(i);
-            ArrayList<Character> upperOrLower = settingsManager.registerCheck(language,current);
-            char keyChar = newKey[i];
-            keyChar = Character.isUpperCase(current) ? Character.toUpperCase(keyChar) : Character.toLowerCase(keyChar);
-            int keyIndex = settingsManager.findIndex(upperOrLower, keyChar);
-            int cipherIndex = settingsManager.findIndex(upperOrLower, word.charAt(i));
-            if (keyIndex < 0 || cipherIndex < 0) {
-                builder.append(current);
-                continue;
-            }
-            int indexSum = (keyIndex + cipherIndex) % upperOrLower.size();
-            builder.append(upperOrLower.get(indexSum));
-
-        }
-
-        return builder.toString();
+        return settingsManager.process(key, word, true);
     }
 }
