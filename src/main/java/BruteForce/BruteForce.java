@@ -5,12 +5,8 @@ package BruteForce;
 import static CyphersOptions.Decryptor.decrypt;
 
 public class BruteForce {
-    public String encryptedWord;
     public static BruteForceImpl bruteForceImpl = new BruteForceImpl();
 
-    BruteForce(String encryptedWord ){
-        this.encryptedWord = encryptedWord;
-    }
     public static String bruteforce(String encryptedWord){
         String decryptedWord = "";
         int matchesMax = 0;
