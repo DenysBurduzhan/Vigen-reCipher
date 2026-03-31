@@ -5,11 +5,11 @@ package Cipher;
 import CommandRunner.Commands;
 import CommandRunner.CommandsParser;
 import CommandRunner.RunOptions;
-import CyphersOptions.BruteForce;
+import BruteForce.BruteForce;
 import FileManager.FileOptions;
 import java.io.IOException;
 import java.nio.file.Path;
-import static CyphersOptions.BruteForce.bruteforce;
+import static BruteForce.BruteForce.bruteforce;
 import static CyphersOptions.Decryptor.decrypt;
 import static CyphersOptions.Encryptor.encrypt;
 
@@ -29,7 +29,7 @@ public class Cipher {
                         decrypt(runOptions.getKey(), fileOptions.read(runOptions.getFilePath())));
             } else if (runOptions.getCommands() == Commands.BRUTEFORCE) {
                 String decryptedWord = bruteforce(fileOptions.read(runOptions.getFilePath()));
-                fileOptions.write(Path.of("output[DECRYPTED Key - " + BruteForce.findKey(decryptedWord) +"].txt"),
+                fileOptions.write(Path.of("output[DECRYPTED Key - " + BruteForce.bruteForceImpl.findKey(decryptedWord) +"].txt"),
                         decryptedWord);
             }
         }catch (RuntimeException e){
