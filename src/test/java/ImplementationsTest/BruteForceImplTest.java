@@ -4,14 +4,14 @@ import org.junit.jupiter.api.Test;
 
 public class BruteForceImplTest {
     @Test
-    public void DictionaryByLangTest(){
+    public void testDictionaryByLang(){
     }
 
     @Test
-    public void KeyFinderTest(){
+    public void testKeyFinder(){
     }
 
     @Test
-    public void MatchesCounterTest(){
+    public void testMatchesCounter(){
     }
 }

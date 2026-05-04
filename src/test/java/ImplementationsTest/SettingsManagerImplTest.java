@@ -5,27 +5,27 @@ import org.junit.jupiter.api.Test;
 
 public class SettingsManagerImplTest {
     @Test
-    public void registerCheckTest() {
+    public void testRegisterCheck() {
         SettingsManagerImpl settingsManagerImpl = new SettingsManagerImpl();
     }
 
     @Test
-    public void findIndexTest() {
+    public void testFindIndex() {
         SettingsManagerImpl settingsManagerImpl = new SettingsManagerImpl();
     }
 
     @Test
-    public void keyToWordLengthTest() {
+    public void testKeyToWordLength() {
         SettingsManagerImpl settingsManagerImpl = new SettingsManagerImpl();
     }
 
     @Test
-    public void getLanguageTest() {
+    public void testGetLanguage() {
         SettingsManagerImpl settingsManagerImpl = new SettingsManagerImpl();
     }
 
     @Test
-    public void processTest() {
+    public void testProcess() {
         SettingsManagerImpl settingsManagerImpl = new SettingsManagerImpl();
     }
 

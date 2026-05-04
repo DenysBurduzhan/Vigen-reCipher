@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 public class CommandsParserTest {
     @Test
-    public void parseTest() {
+    public void testParse() {
 
     }
 }
