@@ -13,6 +13,8 @@ buildNumber.properties
 .idea/misc.xml
 .idea/uiDesigner.xml
 .idea/vcs.xml
+*.jar
+
 
 # https://maven.apache.org/wrapper/#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
