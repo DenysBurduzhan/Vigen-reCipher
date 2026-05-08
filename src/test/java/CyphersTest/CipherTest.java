@@ -26,4 +26,9 @@ public class CipherTest {
     public void testEncrypt() {
         assertEquals(cipher, Encryptor.encrypt(key, text));
     }
+
+    @Test
+    public void testBackwardCompatibility(){
+        assertEquals(text, Decryptor.decrypt(key,Encryptor.encrypt(key,text)));
+    }
 }
