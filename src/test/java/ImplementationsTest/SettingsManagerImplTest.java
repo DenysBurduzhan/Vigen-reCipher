@@ -9,11 +9,6 @@ import java.util.List;
 
 public class SettingsManagerImplTest {
     SettingsManagerImpl settingsManagerImpl = new SettingsManagerImpl();
-    @Test
-    public void testRegisterCheck() {
-        assertEquals(List.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'),
-                settingsManagerImpl.registerCheck(settingsManagerImpl.getLanguage("ABCD"), 'D'));
-    }
 
     @Test
     public void testFindIndex() {

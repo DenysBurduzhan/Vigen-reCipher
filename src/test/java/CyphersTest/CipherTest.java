@@ -31,4 +31,10 @@ public class CipherTest {
     public void testBackwardCompatibility(){
         assertEquals(text, Decryptor.decrypt(key,Encryptor.encrypt(key,text)));
     }
+
+    @Test
+    public void testRegister(){
+        assertEquals(cipher, Encryptor.encrypt(key.toUpperCase(), text));
+        assertEquals(cipher, Encryptor.encrypt(key.toLowerCase(), text));
+    }
 }
