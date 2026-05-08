@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 public class CipherTest {
     String text = "I love to hear her speak, yet well I know";
+    String shorterText = "HI";
+    String emptyText = "";
     String key = "good";
     String cipher = "O zcyk hc kkof kkf gskoy, esh zkzz L qbcz";
     @Test
@@ -36,5 +38,10 @@ public class CipherTest {
     public void testRegister(){
         assertEquals(cipher, Encryptor.encrypt(key.toUpperCase(), text));
         assertEquals(cipher, Encryptor.encrypt(key.toLowerCase(), text));
+    }
+
+    @Test
+    public void testEmptyText(){
+        assertEquals("",Encryptor.encrypt(key, emptyText));
     }
 }
