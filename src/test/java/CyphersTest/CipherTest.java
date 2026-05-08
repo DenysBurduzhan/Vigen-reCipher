@@ -19,24 +19,30 @@ public class CipherTest {
     }
 
     @Test
-    public void testDecrypt() {
+    public void shouldDecryptCipherUsingKey() {
         assertEquals(text, Decryptor.decrypt(key, cipher));
     }
 
     @Test
-    public void testEncrypt() {
+    public void shouldEncryptTextUsingKey() {
         assertEquals(cipher, Encryptor.encrypt(key, text));
     }
 
     @Test
-    public void testBackwardCompatibility(){
+    public void testEncryptDecryptSymmetry(){
         assertEquals(text, Decryptor.decrypt(key,Encryptor.encrypt(key,text)));
     }
 
     @Test
-    public void testRegister(){
+    public void shouldIgnoreCaseOfKey(){
         assertEquals(cipher, Encryptor.encrypt(key.toUpperCase(), text));
         assertEquals(cipher, Encryptor.encrypt(key.toLowerCase(), text));
+    }
+
+    @Test
+    public void shouldPreserveTextCase(){
+        assertEquals(cipher.toUpperCase(), Encryptor.encrypt(key, text.toUpperCase()));
+        assertEquals(cipher.toLowerCase(), Encryptor.encrypt(key, text.toLowerCase()));
     }
 
     @Test
