@@ -70,4 +70,16 @@ public class CipherTest {
     public void testTextShorterThanKey(){
         assertEquals("NW", Encryptor.encrypt(key, shorterText));
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "RIJVS111, KEY, HELLO111",
+            "NW!!, GOOD, HI!!",
+            "12345, KEY, 12345",
+            "@#$%, GOOD, @#$%",
+    })
+    public void testSpecialChars(String cipher,String key, String text){
+        assertEquals(cipher, Encryptor.encrypt(key, text));
+        assertEquals(text, Decryptor.decrypt(key, cipher));
+    }
 }
