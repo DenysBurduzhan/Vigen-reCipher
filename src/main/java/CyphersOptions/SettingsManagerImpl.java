@@ -66,9 +66,9 @@ public class SettingsManagerImpl implements registerSwitcher, FindIndex, Key, La
 
     @Override
     public String process(String key, String word, boolean encrypt) {
-        if(key == null || key.isEmpty()){
+        if(key == null || key.trim().isEmpty()){
             throw new IllegalArgumentException("Missing key");
-        }else if(word == null || word.isEmpty()){
+        }else if(word == null || word.trim().isEmpty()){
             throw new IllegalArgumentException("Missing word");
         }
         SettingsManagerImpl settingsManager = new SettingsManagerImpl();

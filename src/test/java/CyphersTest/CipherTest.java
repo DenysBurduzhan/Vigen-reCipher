@@ -6,6 +6,9 @@ import BruteForce.BruteForce;
 import CyphersOptions.Decryptor;
 import CyphersOptions.Encryptor;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 
 public class CipherTest {
@@ -18,13 +21,21 @@ public class CipherTest {
         assertEquals("key: " + key + " text: " + text, BruteForce.bruteforce(cipher));
     }
 
-    @Test
-    public void shouldDecryptCipherUsingKey() {
+    @ParameterizedTest
+    @CsvSource({
+            "RIJVS, KEY, HELLO",
+            "NW, GOOD, HI",
+    })
+    public void testShouldDecryptCipherUsingKey(String cipher,String key, String text) {
         assertEquals(text, Decryptor.decrypt(key, cipher));
     }
 
-    @Test
-    public void shouldEncryptTextUsingKey() {
+    @ParameterizedTest
+    @CsvSource({
+            "RIJVS, KEY, HELLO",
+            "NW, GOOD, HI",
+    })
+    public void testShouldEncryptTextUsingKey(String cipher,String key, String text) {
         assertEquals(cipher, Encryptor.encrypt(key, text));
     }
 
@@ -33,30 +44,30 @@ public class CipherTest {
         assertEquals(text, Decryptor.decrypt(key,Encryptor.encrypt(key,text)));
     }
 
-    @Test
-    public void shouldIgnoreCaseOfKey(){
-        assertEquals(cipher, Encryptor.encrypt(key.toUpperCase(), text));
-        assertEquals(cipher, Encryptor.encrypt(key.toLowerCase(), text));
+    @ParameterizedTest
+    @ValueSource(strings = {"good", "GOOD"})
+    public void testShouldIgnoreCaseOfKey(String strings){
+        assertEquals(cipher, Encryptor.encrypt(strings, text));
     }
 
-    @Test
-    public void shouldPreserveTextCase(){
-        assertEquals(cipher.toUpperCase(), Encryptor.encrypt(key, text.toUpperCase()));
-        assertEquals(cipher.toLowerCase(), Encryptor.encrypt(key, text.toLowerCase()));
+    @ParameterizedTest
+    @CsvSource({
+            "O ZCYK HC KKOF, I LOVE TO HEAR",
+            "o zcyk hc kkof, i love to hear"
+    })
+    void testShouldPreserveTextCase(String expected, String input) {
+        assertEquals(expected, Encryptor.encrypt(key, input));
     }
 
-    @Test
-    public void testEmptyText(){
-        assertThrows(IllegalArgumentException.class, ()-> Encryptor.encrypt(key, ""));
+    @ParameterizedTest
+    @ValueSource(strings = {"", " "})
+    public void testEmptyTextAndEmptyKey(String strings){
+        assertThrows(IllegalArgumentException.class, ()-> Encryptor.encrypt(key, strings));
+        assertThrows(IllegalArgumentException.class, ()-> Encryptor.encrypt(strings, text));
     }
 
     @Test
     public void testTextShorterThanKey(){
         assertEquals("NW", Encryptor.encrypt(key, shorterText));
-    }
-
-    @Test
-    public void testEmptyKey(){
-        assertThrows(IllegalArgumentException.class, ()-> Encryptor.encrypt("", text));
     }
 }
