@@ -23,6 +23,14 @@ public class CipherTest {
 
     @ParameterizedTest
     @CsvSource({
+            "move, onhwpofxq, abcabcabc"
+    })
+    public void testBruteforceCannotDecryptCipher(String key, String text, String cipher) {
+        assertEquals("key: " + key + " text: " + text, BruteForce.bruteforce(cipher));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
             "RIJVS, KEY, HELLO",
             "NW, GOOD, HI",
     })
