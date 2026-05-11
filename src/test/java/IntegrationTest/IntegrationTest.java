@@ -6,10 +6,7 @@ import BruteForce.BruteForce;
 import Cipher.Cipher;
 import CyphersOptions.Decryptor;
 import CyphersOptions.Encryptor;
-import org.junit.jupiter.api.Assumptions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -50,8 +47,8 @@ public class IntegrationTest {
 
     @BeforeEach
     public void setUp() throws IOException {
-        inputFilePath_UA = createTestFile("EN_Text.txt", textEN);
-        inputFilePath_EN = createTestFile("US_Text.txt", textUA);
+        inputFilePath_UA = createTestFile("UA_Text.txt", textUA);
+        inputFilePath_EN = createTestFile("EN_Text.txt", textEN);
     }
 
     private Path createTestFile(String fileName, String content) throws IOException {
@@ -60,7 +57,7 @@ public class IntegrationTest {
         return filePath;
     }
 
-    private Path execute(String command, Path inputFilePath, String key) throws IOException {
+    private Path execute(String command,String key, Path inputFilePath) throws IOException {
         List<Path> filesBefore = listFiles(tempDir);
         List<String> params = List.of(command, "-k", String.valueOf(key), "-f", inputFilePath.toString());
         try {
@@ -94,6 +91,25 @@ public class IntegrationTest {
         } catch (IOException e) {
             fail("Failed to read file: " + filePath, e);
             return null;
+        }
+    }
+
+    @Nested
+    @DisplayName("File tests")
+    class FileTests{
+
+        @Test
+        @DisplayName("File shoulde be created")
+        void testFileCreation() throws IOException {
+            Path encrypted = execute(ENCRYPT_COMMAND, "good", inputFilePath_EN);
+            assertTrue(Files.exists(encrypted), "Encrypted file does not exist:");
+        }
+
+        @Test
+        @DisplayName("File should have a marker '[ENCRYPTED]'")
+        void  TestEncryptFileMarker() throws IOException {
+            Path encrypted = execute(ENCRYPT_COMMAND, "good", inputFilePath_EN);
+            assertTrue(encrypted.getFileName().toString().endsWith("[ENCRYPTED]"),"Encrypted file doesn't have '[ENCRYPTED]' marker. File name: " + encrypted.getFileName());
         }
     }
 }
