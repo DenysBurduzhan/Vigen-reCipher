@@ -22,15 +22,23 @@ public class Cipher {
 
         try {
             if (runOptions.getCommands() == Commands.ENCRYPT) {
-                fileOptions.write(Path.of("output[ENCRYPTED].txt"),
-                        encrypt(runOptions.getKey(), fileOptions.read(runOptions.getFilePath())));
+                String content = encrypt(runOptions.getKey(), fileOptions.read(runOptions.getFilePath()));
+                String fileName = runOptions.getFilePath().getFileName().toString();
+                String newFileName = fileName.substring(0, fileName.length() - 4) + " [ENCRYPTED].txt";
+                Path newFilePath = runOptions.getFilePath().resolveSibling(newFileName);
+                fileOptions.write(newFilePath,content);
             } else if (runOptions.getCommands() == Commands.DECRYPT) {
-                fileOptions.write(Path.of("output[DECRYPTED].txt"),
-                        decrypt(runOptions.getKey(), fileOptions.read(runOptions.getFilePath())));
+                String content = decrypt(runOptions.getKey(), fileOptions.read(runOptions.getFilePath()));
+                String fileName = runOptions.getFilePath().getFileName().toString();
+                String newFileName = fileName.substring(0, fileName.length() - 4) + " [DECRYPTED].txt";
+                Path newFilePath = runOptions.getFilePath().resolveSibling(newFileName);
+                fileOptions.write(newFilePath,content);
             } else if (runOptions.getCommands() == Commands.BRUTEFORCE) {
-                String decryptedWord = bruteforce(fileOptions.read(runOptions.getFilePath()));
-                fileOptions.write(Path.of("output[DECRYPTED Key - " + BruteForce.bruteForceImpl.findKey(decryptedWord) +"].txt"),
-                        decryptedWord);
+                String content = bruteforce(fileOptions.read(runOptions.getFilePath()));
+                String fileName = runOptions.getFilePath().getFileName().toString();
+                String newFileName = fileName.substring(0, fileName.length() - 4) + " [DECRYPTED Key -" + BruteForce.bruteForceImpl.findKey(content) + "].txt";
+                Path newFilePath = runOptions.getFilePath().resolveSibling(newFileName);
+                fileOptions.write(newFilePath,content);
             }
         }catch (RuntimeException e){
             e.printStackTrace();

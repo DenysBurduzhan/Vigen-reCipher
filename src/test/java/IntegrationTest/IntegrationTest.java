@@ -96,20 +96,39 @@ public class IntegrationTest {
 
     @Nested
     @DisplayName("File tests")
-    class FileTests{
+    class FileTests {
 
-        @Test
-        @DisplayName("File shoulde be created")
-        void testFileCreation() throws IOException {
-            Path encrypted = execute(ENCRYPT_COMMAND, "good", inputFilePath_EN);
-            assertTrue(Files.exists(encrypted), "Encrypted file does not exist:");
+        @Nested
+        @DisplayName("ENCRYPT")
+        class EncryptFileTests {
+
+            @Test
+            @DisplayName("File should be created")
+            void testFileCreation() throws IOException {
+                Path encrypted = execute(ENCRYPT_COMMAND, "good", inputFilePath_EN);
+                assertTrue(Files.exists(encrypted), "Encrypted file does not exist:");
+            }
+
+            @Test
+            @DisplayName("File should have a marker '[ENCRYPTED]'")
+            void TestEncryptFileMarker() throws IOException {
+                Path encrypted = execute(ENCRYPT_COMMAND, "good", inputFilePath_EN);
+                assertTrue(encrypted.getFileName().toString().contains("[ENCRYPTED]"), "Encrypted file doesn't have '[ENCRYPTED]' marker. File name: " + encrypted.getFileName());
+            }
         }
-
+    }
+    @Nested
+    @DisplayName("Validation")
+    class ValidationTests {
         @Test
-        @DisplayName("File should have a marker '[ENCRYPTED]'")
-        void  TestEncryptFileMarker() throws IOException {
-            Path encrypted = execute(ENCRYPT_COMMAND, "good", inputFilePath_EN);
-            assertTrue(encrypted.getFileName().toString().endsWith("[ENCRYPTED]"),"Encrypted file doesn't have '[ENCRYPTED]' marker. File name: " + encrypted.getFileName());
+        @DisplayName("File not exists exception should be handled")
+        void fileNotExists() {
+            Path fakeFilePath = Path.of("/fake/path/file.txt");
+
+            String[] params = {ENCRYPT_COMMAND, "-k", "good" , "-f", fakeFilePath.toString()};
+
+            assertThrows(IOException.class,
+                    () -> Cipher.main(params));
         }
     }
 }
