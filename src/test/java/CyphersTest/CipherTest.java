@@ -3,12 +3,16 @@ package CyphersTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 import BruteForce.BruteForce;
+import Constants.Constants;
 import CyphersOptions.Decryptor;
 import CyphersOptions.Encryptor;
+import CyphersOptions.SettingsManagerImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
 
 
 public class CipherTest {
@@ -16,6 +20,7 @@ public class CipherTest {
     String shorterText = "HI";
     String key = "good";
     String cipher = "O zcyk hc kkof kkf gskoy, esh zkzz L qbcz";
+    SettingsManagerImpl settingsManager = new SettingsManagerImpl();
     @Test
     public void testBruteforce() {
         assertEquals("key: " + key + " text: " + text, BruteForce.bruteforce(cipher));
@@ -89,5 +94,12 @@ public class CipherTest {
     public void testSpecialChars(String cipher,String key, String text){
         assertEquals(cipher, Encryptor.encrypt(key, text));
         assertEquals(text, Decryptor.decrypt(key, cipher));
+    }
+
+    @Test
+    @DisplayName("Languages test")
+    void testLanguage() {
+            assertEquals(Constants.getEng(), settingsManager.getLanguage("good"));
+            assertEquals(Constants.getUkr(), settingsManager.getLanguage("калина"));
     }
 }
