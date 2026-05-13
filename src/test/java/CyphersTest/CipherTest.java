@@ -20,7 +20,7 @@ public class CipherTest {
     String shorterText = "HI";
     String key = "good";
     String cipher = "O zcyk hc kkof kkf gskoy, esh zkzz L qbcz";
-    SettingsManagerImpl settingsManager = new SettingsManagerImpl();
+    private final SettingsManagerImpl settingsManager = new SettingsManagerImpl();
     @Test
     public void testBruteforce() {
         assertEquals("key: " + key + " text: " + text, BruteForce.bruteforce(cipher));
