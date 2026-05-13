@@ -136,6 +136,19 @@ public class IntegrationTest {
                 assertTrue(decrypted.getFileName().toString().contains("[DECRYPTED]"), "Decrypted file doesn't have '[DECRYPTED]' marker. File name: " + decrypted.getFileName());
             }
         }
+
+        @Nested
+        @DisplayName("BRUTE FORCE")
+        class BruteForceFileTests {
+
+            @Test
+            @DisplayName("File should be created")
+            void testFileCreation() throws IOException {
+                Path encrypted = execute(ENCRYPT_COMMAND, "good", inputFilePath_EN);
+                Path bruteForce = execute(BF_COMMAND, "good", encrypted);
+                assertTrue(Files.exists(bruteForce), "Brute Force file does not exist:");
+            }
+        }
     }
     @Nested
     @DisplayName("Validation")
