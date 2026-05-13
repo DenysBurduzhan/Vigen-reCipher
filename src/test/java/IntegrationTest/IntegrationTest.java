@@ -116,6 +116,26 @@ public class IntegrationTest {
                 assertTrue(encrypted.getFileName().toString().contains("[ENCRYPTED]"), "Encrypted file doesn't have '[ENCRYPTED]' marker. File name: " + encrypted.getFileName());
             }
         }
+        @Nested
+        @DisplayName("DECRYPT")
+        class DecryptFileTests {
+
+            @Test
+            @DisplayName("File should be created")
+            void testFileCreation() throws IOException {
+                Path encrypted = execute(ENCRYPT_COMMAND, "good", inputFilePath_EN);
+                Path decrypted = execute(DECRYPT_COMMAND, "good", encrypted);
+                assertTrue(Files.exists(decrypted), "Decrypted file does not exist:");
+            }
+
+            @Test
+            @DisplayName("File should have a marker '[DECRYPTED]'")
+            void TestEncryptFileMarker() throws IOException {
+                Path encrypted = execute(ENCRYPT_COMMAND, "good", inputFilePath_EN);
+                Path decrypted = execute(DECRYPT_COMMAND, "good", encrypted);
+                assertTrue(decrypted.getFileName().toString().contains("[DECRYPTED]"), "Decrypted file doesn't have '[DECRYPTED]' marker. File name: " + decrypted.getFileName());
+            }
+        }
     }
     @Nested
     @DisplayName("Validation")
