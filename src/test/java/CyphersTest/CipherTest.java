@@ -29,6 +29,13 @@ public class CipherTest {
     private void assertDecrypted(String expectedText, String key, String cipherText) {
         assertEquals(expectedText, Decryptor.decrypt(key, cipherText));
     }
+
+    private void assertEncryptionCycle(String text, String key) {
+        String encrypted = Encryptor.encrypt(key, text);
+        String decrypted = Decryptor.decrypt(key, encrypted);
+
+        assertEquals(text, decrypted);
+    }
     @Test
     public void testBruteforce() {
         assertEquals("key: " + key + " text: " + text, BruteForce.bruteforce(encrypted));
@@ -60,9 +67,13 @@ public class CipherTest {
         assertEncrypted(cipher, key, text);
     }
 
-    @Test
-    public void testEncryptDecryptSymmetry(){
-        assertEquals(text, Decryptor.decrypt(key,Encryptor.encrypt(key,text)));
+    @ParameterizedTest
+    @CsvSource({
+            "I LOVE TO HEAR , good",
+            "i love to hear , GOOD"
+    })
+    public void testEncryptDecryptSymmetry(String text, String key) {
+        assertEncryptionCycle(text, key);
     }
 
     @ParameterizedTest
