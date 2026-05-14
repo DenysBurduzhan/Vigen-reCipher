@@ -19,11 +19,15 @@ public class CipherTest {
     private final String text = "I love to hear her speak, yet well I know";
     private final String shorterText = "HI";
     private final String key = "good";
-    private final String cipher = "O zcyk hc kkof kkf gskoy, esh zkzz L qbcz";
+    private final String encrypted = "O zcyk hc kkof kkf gskoy, esh zkzz L qbcz";
     private final SettingsManagerImpl settingsManager = new SettingsManagerImpl();
+
+    private void assertEncrypted(String expectedCipher,String key, String text) {
+        assertEquals(expectedCipher, Encryptor.encrypt(key, text));
+    }
     @Test
     public void testBruteforce() {
-        assertEquals("key: " + key + " text: " + text, BruteForce.bruteforce(cipher));
+        assertEquals("key: " + key + " text: " + text, BruteForce.bruteforce(encrypted));
     }
 
     @ParameterizedTest
@@ -49,7 +53,7 @@ public class CipherTest {
             "NW, GOOD, HI",
     })
     public void testShouldEncryptTextUsingKey(String cipher,String key, String text) {
-        assertEquals(cipher, Encryptor.encrypt(key, text));
+        assertEncrypted(cipher, key, text);
     }
 
     @Test
@@ -60,7 +64,7 @@ public class CipherTest {
     @ParameterizedTest
     @ValueSource(strings = {"good", "GOOD"})
     public void testShouldIgnoreCaseOfKey(String strings){
-        assertEquals(cipher, Encryptor.encrypt(strings, text));
+        assertEquals(encrypted, Encryptor.encrypt(strings, text));
     }
 
     @ParameterizedTest
