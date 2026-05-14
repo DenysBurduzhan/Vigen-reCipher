@@ -25,6 +25,10 @@ public class CipherTest {
     private void assertEncrypted(String expectedCipher,String key, String text) {
         assertEquals(expectedCipher, Encryptor.encrypt(key, text));
     }
+
+    private void assertDecrypted(String expectedText, String key, String cipherText) {
+        assertEquals(expectedText, Decryptor.decrypt(key, cipherText));
+    }
     @Test
     public void testBruteforce() {
         assertEquals("key: " + key + " text: " + text, BruteForce.bruteforce(encrypted));
@@ -44,7 +48,7 @@ public class CipherTest {
             "NW, GOOD, HI",
     })
     public void testShouldDecryptCipherUsingKey(String cipher,String key, String text) {
-        assertEquals(text, Decryptor.decrypt(key, cipher));
+        assertDecrypted(text, key, cipher);
     }
 
     @ParameterizedTest
