@@ -16,10 +16,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 
 public class CipherTest {
-    String text = "I love to hear her speak, yet well I know";
-    String shorterText = "HI";
-    String key = "good";
-    String cipher = "O zcyk hc kkof kkf gskoy, esh zkzz L qbcz";
+    private final String text = "I love to hear her speak, yet well I know";
+    private final String shorterText = "HI";
+    private final String key = "good";
+    private final String cipher = "O zcyk hc kkof kkf gskoy, esh zkzz L qbcz";
     private final SettingsManagerImpl settingsManager = new SettingsManagerImpl();
     @Test
     public void testBruteforce() {
