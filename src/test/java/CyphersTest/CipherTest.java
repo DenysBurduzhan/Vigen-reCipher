@@ -98,9 +98,10 @@ public class CipherTest {
         assertThrows(IllegalArgumentException.class, ()-> Encryptor.encrypt(strings, text));
     }
 
-    @Test
-    public void testTextShorterThanKey(){
-        assertEquals("NW", Encryptor.encrypt(key, shorterText));
+    @ParameterizedTest
+    @CsvSource({"NW, HI, good"})
+    public void testTextShorterThanKey(String expected , String text, String key) {
+        assertEquals(expected, Encryptor.encrypt(key, text));
     }
 
     @ParameterizedTest
