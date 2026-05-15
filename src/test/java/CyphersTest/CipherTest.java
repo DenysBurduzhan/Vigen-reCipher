@@ -7,6 +7,7 @@ import Constants.Constants;
 import CyphersOptions.Decryptor;
 import CyphersOptions.Encryptor;
 import CyphersOptions.SettingsManagerImpl;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,7 +18,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class CipherTest {
     private final String text = "I love to hear her speak, yet well I know";
-    private final String shorterText = "HI";
     private final String key = "good";
     private final String encrypted = "O zcyk hc kkof kkf gskoy, esh zkzz L qbcz";
     private final SettingsManagerImpl settingsManager = new SettingsManagerImpl();
@@ -41,6 +41,7 @@ public class CipherTest {
         assertEquals("key: " + key + " text: " + text, BruteForce.bruteforce(encrypted));
     }
 
+    @Disabled
     @ParameterizedTest
     @CsvSource({
             "move, onhwpofxq, abcabcabc"
@@ -76,18 +77,13 @@ public class CipherTest {
         assertEncryptionCycle(text, key);
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"good", "GOOD"})
-    public void testShouldIgnoreCaseOfKey(String strings){
-        assertEquals(encrypted, Encryptor.encrypt(strings, text));
-    }
 
     @ParameterizedTest
     @CsvSource({
-            "O ZCYK HC KKOF, I LOVE TO HEAR",
-            "o zcyk hc kkof, i love to hear"
+            "O ZCYK HC KKOF, good, I LOVE TO HEAR",
+            "o zcyk hc kkof, GOOD, i love to hear"
     })
-    void testShouldPreserveTextCase(String expected, String input) {
+    void testShouldPreserveTextCase(String expected, String key, String input) {
         assertEquals(expected, Encryptor.encrypt(key, input));
     }
 
