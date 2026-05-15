@@ -34,6 +34,19 @@ public class IntegrationTest {
 
     private Path inputFilePath_UA;
     private Path inputFilePath_EN;
+    private String encryptAndDecryptFile(String key, Path inputFile) throws IOException {
+        Path encrypted = execute(ENCRYPT_COMMAND, key, inputFile);
+        Path decrypted = execute(DECRYPT_COMMAND, key, encrypted);
+
+        return readFile(decrypted);
+    }
+
+    @Test
+    void shouldRestoreOriginalTextAfterFullCycle() throws IOException {
+        String result = encryptAndDecryptFile("good", inputFilePath_EN);
+
+        assertEquals(textEN, result);
+    }
 
     @TempDir
     private Path tempDir;
